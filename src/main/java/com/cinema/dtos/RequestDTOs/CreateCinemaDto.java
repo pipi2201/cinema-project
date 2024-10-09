@@ -1,20 +1,15 @@
-package com.cinema.dtos;
+package com.cinema.dtos.RequestDTOs;
 
-import com.cinema.entities.HallEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @Getter
 @Setter
-public class ResponseCinemaDto {
-    private int cinemaId;
+public class CreateCinemaDto {
     private String name;
     private String address;
     private String manager;
     private int maxHalls;
-    private List<HallEntity> hallEntityList;
 }

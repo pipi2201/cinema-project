@@ -1,7 +1,7 @@
 package com.cinema.controller;
 
-import com.cinema.dtos.CreateCinemaDto;
-import com.cinema.dtos.ResponseCinemaDto;
+import com.cinema.dtos.RequestDTOs.CreateCinemaDto;
+import com.cinema.dtos.ResponseDTOs.ResponseCinemaDto;
 import com.cinema.services.CinemaServices;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

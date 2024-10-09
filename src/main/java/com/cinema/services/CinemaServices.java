@@ -1,11 +1,13 @@
 package com.cinema.services;
 
-import com.cinema.dtos.CreateCinemaDto;
-import com.cinema.dtos.ResponseCinemaDto;
+import com.cinema.dtos.RequestDTOs.CreateCinemaDto;
+import com.cinema.dtos.ResponseDTOs.ResponseCinemaDto;
 import com.cinema.entities.CinemaEntity;
 import com.cinema.repositories.CinemaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -28,5 +30,14 @@ public class CinemaServices {
                 cinemaEntity.getManager(),
                 cinemaEntity.getMaxHalls(),
                 cinemaEntity.getHallEntityList());
+    }
+
+
+    public CinemaEntity getCinemaById(int cinemaId) {
+        Optional<CinemaEntity> cinemaEntityOptional = cinemaRepository.findById(cinemaId);
+        if (cinemaEntityOptional.isEmpty()) {
+            throw new RuntimeException("Cinema not found");
+        }
+        return cinemaEntityOptional.get();
     }
 }
