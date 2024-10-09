@@ -3,14 +3,16 @@ package com.cinema.dtos.ResponseDTOs;
 import com.cinema.entities.HallEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
 @Setter
-public class ResponseCinemaDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResponseGetCinemaDto {
     private int cinemaId;
     private String name;
     private String address;
