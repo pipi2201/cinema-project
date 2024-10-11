@@ -86,4 +86,8 @@ public class CinemaServices {
         }
         return hallDtoList;
     }
+
+    public String deleteCinema(int cinemaId) {
+        return null;
+    }
 }

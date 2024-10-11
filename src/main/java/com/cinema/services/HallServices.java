@@ -3,7 +3,6 @@ package com.cinema.services;
 import com.cinema.dtos.RequestDTOs.CreateHallDto;
 import com.cinema.dtos.RequestDTOs.UpdateHallDto;
 import com.cinema.dtos.ResponseDTOs.ResponseHallDto;
-import com.cinema.entities.CinemaEntity;
 import com.cinema.entities.HallEntity;
 import com.cinema.repositories.HallRepository;
 import lombok.AllArgsConstructor;

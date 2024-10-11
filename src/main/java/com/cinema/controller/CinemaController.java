@@ -31,4 +31,9 @@ public class CinemaController {
     public ResponseEntity<ResponseGetCinemaDto> getCinema(@PathVariable int cinemaId) {
         return new ResponseEntity<>(cinemaServices.getCinema(cinemaId), HttpStatus.OK);
     }
+
+    @DeleteMapping("{cinemaId}")
+    public ResponseEntity<String> deleteCinema(@PathVariable int cinemaId) {
+        return new ResponseEntity<>(cinemaServices.deleteCinema(cinemaId), HttpStatus.OK);
+    }
 }

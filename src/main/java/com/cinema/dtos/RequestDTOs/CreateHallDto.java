@@ -1,6 +1,5 @@
 package com.cinema.dtos.RequestDTOs;
 
-import com.cinema.entities.CinemaEntity;
 import com.cinema.enums.MovieVersion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
