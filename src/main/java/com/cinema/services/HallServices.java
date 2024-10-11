@@ -8,6 +8,8 @@ import com.cinema.repositories.HallRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class HallServices {
@@ -30,5 +32,14 @@ public class HallServices {
                 hallEntity.getSupportedMovieVersion(),
                 hallEntity.getCinema().getCinemaId()
         );
+    }
+
+    public ResponseHallDto getHall(int hallId) {
+        Optional<HallEntity> hallEntityOptional = hallRepository.findById(hallId);
+        if (hallEntityOptional.isEmpty()) {
+            throw new RuntimeException("Hall not found");
+        }
+        HallEntity hallEntity = hallEntityOptional.get();
+        return new ResponseHallDto(hallEntity.getHallId(), hallEntity.getCapacity(), hallEntity.getOccupiedSeats(), hallEntity.getSupportedMovieVersion(), hallEntity.getCinema().getCinemaId());
     }
 }
