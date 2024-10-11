@@ -1,6 +1,7 @@
 package com.cinema.controller;
 
 import com.cinema.dtos.RequestDTOs.CreateHallDto;
+import com.cinema.dtos.RequestDTOs.UpdateHallDto;
 import com.cinema.dtos.ResponseDTOs.ResponseHallDto;
 import com.cinema.services.HallServices;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,10 @@ public class HallController {
     @GetMapping("{hallId}")
     public ResponseEntity<ResponseHallDto> getHall(@PathVariable int hallId) {
         return new ResponseEntity<>(hallServices.getHall(hallId), HttpStatus.OK);
+    }
+
+    @PutMapping("{hallId}")
+    public ResponseEntity<ResponseHallDto> updateHall(@PathVariable int hallId, @RequestBody UpdateHallDto updateHallDto) {
+        return new ResponseEntity<>(hallServices.updateHall(hallId, updateHallDto), HttpStatus.OK);
     }
 }
