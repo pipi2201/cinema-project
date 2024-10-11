@@ -26,4 +26,9 @@ public class CinemaController {
     public ResponseEntity<List<ResponseGetCinemaDto>> getAllCinemas() {
         return new ResponseEntity<>(cinemaServices.getAllCinemas(), HttpStatus.OK);
     }
+
+    @GetMapping("{cinemaId}")
+    public ResponseEntity<ResponseGetCinemaDto> getCinema(@PathVariable int cinemaId) {
+        return new ResponseEntity<>(cinemaServices.getCinema(cinemaId), HttpStatus.OK);
+    }
 }

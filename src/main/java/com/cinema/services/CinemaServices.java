@@ -1,9 +1,11 @@
 package com.cinema.services;
 
+import com.cinema.dtos.HallDtoForList;
 import com.cinema.dtos.RequestDTOs.CreateCinemaDto;
 import com.cinema.dtos.ResponseDTOs.ResponseCreateCinemaDto;
 import com.cinema.dtos.ResponseDTOs.ResponseGetCinemaDto;
 import com.cinema.entities.CinemaEntity;
+import com.cinema.entities.HallEntity;
 import com.cinema.repositories.CinemaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,16 +49,41 @@ public class CinemaServices {
         List<CinemaEntity> cinemaEntityList = cinemaRepository.findAll();
         List<ResponseGetCinemaDto> cinemaDtoList = new ArrayList<>();
         for (CinemaEntity cinemaEntity : cinemaEntityList) {
-            ResponseGetCinemaDto cinemaDto = new ResponseGetCinemaDto();
-            cinemaDto.setCinemaId(cinemaEntity.getCinemaId());
-            cinemaDto.setName(cinemaEntity.getName());
-            cinemaDto.setAddress(cinemaEntity.getAddress());
-            cinemaDto.setManager(cinemaEntity.getManager());
-            cinemaDto.setMaxHalls(cinemaEntity.getMaxHalls());
-            cinemaDto.setHallEntityList(cinemaEntity.getHallEntityList());
 
-            cinemaDtoList.add(cinemaDto);
+            cinemaDtoList.add(writeToDto(cinemaEntity));
         }
         return cinemaDtoList;
+    }
+
+    public ResponseGetCinemaDto getCinema(int cinemaId) {
+        CinemaEntity cinemaEntity = new CinemaEntity();
+        cinemaEntity = getCinemaById(cinemaId);
+
+        return writeToDto(cinemaEntity);
+    }
+
+    private ResponseGetCinemaDto writeToDto(CinemaEntity cinemaEntity) {
+        ResponseGetCinemaDto cinemaDto = new ResponseGetCinemaDto();
+        cinemaDto.setCinemaId(cinemaEntity.getCinemaId());
+        cinemaDto.setName(cinemaEntity.getName());
+        cinemaDto.setAddress(cinemaEntity.getAddress());
+        cinemaDto.setManager(cinemaEntity.getManager());
+        cinemaDto.setMaxHalls(cinemaEntity.getMaxHalls());
+        cinemaDto.setHalls(getHallDtoListForCinema(cinemaEntity));
+
+        return cinemaDto;
+    }
+
+    public List<HallDtoForList> getHallDtoListForCinema(CinemaEntity cinemaEntity) {
+        List<HallEntity> hallList = cinemaEntity.getHallEntityList();
+        List<HallDtoForList> hallDtoList = new ArrayList<>();
+        for (HallEntity hall : hallList) {
+            HallDtoForList hallDto = new HallDtoForList();
+            hallDto.setHallId(hall.getHallId());
+            hallDto.setCapacity(hall.getCapacity());
+            hallDto.setOccupiedSeats(hall.getOccupiedSeats());
+            hallDtoList.add(hallDto);
+        }
+        return hallDtoList;
     }
 }

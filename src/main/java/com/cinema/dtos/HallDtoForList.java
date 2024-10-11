@@ -1,20 +1,16 @@
-package com.cinema.dtos.ResponseDTOs;
+package com.cinema.dtos;
 
-import com.cinema.entities.CinemaEntity;
-import com.cinema.entities.ScreenedMovieEntity;
 import com.cinema.enums.MovieVersion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseHallDto {
+public class HallDtoForList {
     private int hallId;
     private int capacity;
     private int occupiedSeats;
