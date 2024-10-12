@@ -1,13 +1,18 @@
 package com.cinema.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.cinema.entities.pk.ScreenedMoviePk;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@IdClass(ScreenedMoviePk.class)
 public class ScreenedMovieEntity {
 
     @Id

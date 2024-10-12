@@ -13,4 +13,5 @@ public class ResponseCreateCinemaDto {
     private String address;
     private String manager;
     private int maxHalls;
+
 }

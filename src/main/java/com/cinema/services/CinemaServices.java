@@ -82,6 +82,8 @@ public class CinemaServices {
             hallDto.setHallId(hall.getHallId());
             hallDto.setCapacity(hall.getCapacity());
             hallDto.setOccupiedSeats(hall.getOccupiedSeats());
+            hallDto.setSupportedMovieVersion(hall.getSupportedMovieVersion());
+            hallDto.setCinemaId(hall.getCinema().getCinemaId());
             hallDtoList.add(hallDto);
         }
         return hallDtoList;

@@ -1,6 +1,7 @@
 package com.cinema.dtos.RequestDTOs;
 
 import com.cinema.enums.MovieVersion;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ public class CreateMovieDto {
     private String title;
     private String mainCharacter;
     private String description;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate premieredAt;
     private MovieVersion movieVersion;
+    private int hallId;
 }
