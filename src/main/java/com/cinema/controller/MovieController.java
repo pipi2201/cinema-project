@@ -29,7 +29,7 @@ public class MovieController {
     }
 
     @GetMapping("{movieVersion}")
-    public ResponseEntity<ResponseGetMovieDto> getMovie(@PathVariable MovieVersion movieVersion ) {
+    public ResponseEntity<List<ResponseGetMovieDto>> getMovie(@PathVariable MovieVersion movieVersion ) {
         return new ResponseEntity<>(movieServices.getMovie(movieVersion), HttpStatus.OK);
     }
 }

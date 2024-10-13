@@ -59,30 +59,29 @@ public class MovieServices {
 
     public List<ResponseGetMovieDto> getMovies() {
         List<MovieEntity> movieEntities = movieRepository.findAll();
+        return writeToDtos(movieEntities);
+    }
+
+    public List<ResponseGetMovieDto> getMovie(MovieVersion movieVersion) {
+        //Todo: write function getByMovieVersion
+        List<MovieEntity> movieEntityList = movieRepository.findAllByMovieVersion(movieVersion).get();
+        return writeToDtos(movieEntityList);
+    }
+
+    private List<ResponseGetMovieDto> writeToDtos(List<MovieEntity> movieEntities) {
         List<ResponseGetMovieDto> movieDtos = new ArrayList<>();
         for (MovieEntity movieEntity : movieEntities) {
             ResponseGetMovieDto movieDto = new ResponseGetMovieDto();
+            movieDto.setMovieId(movieEntity.getMovieId());
             movieDto.setTitle(movieEntity.getTitle());
             movieDto.setMainCharacter(movieEntity.getMainCharacter());
             movieDto.setDescription(movieEntity.getDescription());
             movieDto.setPremieredAt(movieEntity.getPremieredAt());
             movieDto.setMovieVersion(movieEntity.getMovieVersion());
             //TODO How to get hallId?
+            //movieDto.setHallId();
             movieDtos.add(movieDto);
         }
         return movieDtos;
-    }
-
-    public ResponseGetMovieDto getMovie(MovieVersion movieVersion) {
-        //Todo: write function getByMovieVersion
-//        MovieEntity movieEntity = movieRepository
-//        ResponseGetMovieDto movieDto = new ResponseGetMovieDto();
-//        movieDto.setTitle(movieEntity.getTitle());
-//        movieDto.setMainCharacter(movieEntity.getMainCharacter());
-//        movieDto.setDescription(movieEntity.getDescription());
-//        movieDto.setPremieredAt(movieEntity.getPremieredAt());
-//        movieDto.setMovieVersion(movieEntity.getMovieVersion());
-
-        return null;
     }
 }
