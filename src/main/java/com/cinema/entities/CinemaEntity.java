@@ -20,6 +20,6 @@ public class CinemaEntity {
     private String manager;
     private int maxHalls;
 
-    @OneToMany (mappedBy = "cinema")
+    @OneToMany (mappedBy = "cinema", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<HallEntity> hallEntityList;
 }

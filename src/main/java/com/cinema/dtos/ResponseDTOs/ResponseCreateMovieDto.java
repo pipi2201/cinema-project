@@ -19,4 +19,5 @@ public class ResponseCreateMovieDto {
     private String description;
     private LocalDate premieredAt;
     private MovieVersion movieVersion;
+    private int hallId;
 }

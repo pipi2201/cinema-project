@@ -90,6 +90,14 @@ public class CinemaServices {
     }
 
     public String deleteCinema(int cinemaId) {
-        return null;
+        List <HallEntity> hallEntityList = new ArrayList<>();
+        hallEntityList = cinemaRepository.findById(cinemaId).get().getHallEntityList();
+        for (HallEntity hallEntity : hallEntityList) {
+            if (hallEntity.getScreenedMovieEntityList() != null && !hallEntity.getScreenedMovieEntityList().isEmpty()) {
+                return "Cinema can't be deleted";
+            }
+        }
+        cinemaRepository.deleteById(cinemaId);
+        return "Cinema deleted successfully";
     }
 }

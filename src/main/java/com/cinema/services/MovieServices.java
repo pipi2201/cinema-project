@@ -37,16 +37,19 @@ public class MovieServices {
         screenedMovieEntity.setScreenTime(LocalDateTime.now());
 
         if(screenedMovieEntity.getMovie().getMovieVersion().equals(screenedMovieEntity.getHall().getSupportedMovieVersion())) {
+            System.out.println("movieversion matches");
             screenedMovieRepository.save(screenedMovieEntity);
+            return new ResponseCreateMovieDto(
+                    movieEntity.getMovieId(),
+                    movieEntity.getTitle(),
+                    movieEntity.getMainCharacter(),
+                    movieEntity.getDescription(),
+                    movieEntity.getPremieredAt(),
+                    movieEntity.getMovieVersion(),
+                    screenedMovieEntity.getHall().getHallId()
+            );
         }
-
-        return new ResponseCreateMovieDto(
-                movieEntity.getMovieId(),
-                movieEntity.getTitle(),
-                movieEntity.getMainCharacter(),
-                movieEntity.getDescription(),
-                movieEntity.getPremieredAt(),
-                movieEntity.getMovieVersion()
-        );
+        System.out.println("movieversion doesn't match");
+        return null;
     }
 }

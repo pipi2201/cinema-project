@@ -1,10 +1,14 @@
 package com.cinema.dtos;
 
+import com.cinema.entities.ScreenedMovieEntity;
 import com.cinema.enums.MovieVersion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
