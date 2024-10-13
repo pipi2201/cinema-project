@@ -7,6 +7,7 @@ import com.cinema.dtos.ResponseDTOs.ResponseGetMovieDto;
 import com.cinema.entities.MovieEntity;
 import com.cinema.entities.ScreenedMovieEntity;
 import com.cinema.entities.pk.ScreenedMoviePk;
+import com.cinema.enums.MovieVersion;
 import com.cinema.repositories.HallRepository;
 import com.cinema.repositories.MovieRepository;
 import com.cinema.repositories.ScreenedMovieRepository;
@@ -70,5 +71,18 @@ public class MovieServices {
             movieDtos.add(movieDto);
         }
         return movieDtos;
+    }
+
+    public ResponseGetMovieDto getMovie(MovieVersion movieVersion) {
+        //Todo: write function getByMovieVersion
+//        MovieEntity movieEntity = movieRepository
+//        ResponseGetMovieDto movieDto = new ResponseGetMovieDto();
+//        movieDto.setTitle(movieEntity.getTitle());
+//        movieDto.setMainCharacter(movieEntity.getMainCharacter());
+//        movieDto.setDescription(movieEntity.getDescription());
+//        movieDto.setPremieredAt(movieEntity.getPremieredAt());
+//        movieDto.setMovieVersion(movieEntity.getMovieVersion());
+
+        return null;
     }
 }

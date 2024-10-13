@@ -3,6 +3,7 @@ package com.cinema.controller;
 import com.cinema.dtos.RequestDTOs.CreateMovieDto;
 import com.cinema.dtos.ResponseDTOs.ResponseCreateMovieDto;
 import com.cinema.dtos.ResponseDTOs.ResponseGetMovieDto;
+import com.cinema.enums.MovieVersion;
 import com.cinema.services.MovieServices;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,5 +26,10 @@ public class MovieController {
     @GetMapping
     public ResponseEntity<List<ResponseGetMovieDto>> getMovies() {
         return new ResponseEntity<>(movieServices.getMovies(), HttpStatus.OK);
+    }
+
+    @GetMapping("{movieVersion}")
+    public ResponseEntity<ResponseGetMovieDto> getMovie(@PathVariable MovieVersion movieVersion ) {
+        return new ResponseEntity<>(movieServices.getMovie(movieVersion), HttpStatus.OK);
     }
 }
