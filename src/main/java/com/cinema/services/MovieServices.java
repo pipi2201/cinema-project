@@ -3,8 +3,10 @@ package com.cinema.services;
 
 import com.cinema.dtos.RequestDTOs.CreateMovieDto;
 import com.cinema.dtos.ResponseDTOs.ResponseCreateMovieDto;
+import com.cinema.dtos.ResponseDTOs.ResponseGetMovieDto;
 import com.cinema.entities.MovieEntity;
 import com.cinema.entities.ScreenedMovieEntity;
+import com.cinema.entities.pk.ScreenedMoviePk;
 import com.cinema.repositories.HallRepository;
 import com.cinema.repositories.MovieRepository;
 import com.cinema.repositories.ScreenedMovieRepository;
@@ -12,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -29,8 +33,6 @@ public class MovieServices {
         movieEntity.setMovieVersion(createMovieDto.getMovieVersion());
         movieEntity.setPremieredAt(createMovieDto.getPremieredAt());
 
-        movieRepository.save(movieEntity);
-
         ScreenedMovieEntity screenedMovieEntity = new ScreenedMovieEntity();
         screenedMovieEntity.setMovie(movieEntity);
         screenedMovieEntity.setHall(hallRepository.findById(createMovieDto.getHallId()).get());
@@ -38,6 +40,7 @@ public class MovieServices {
 
         if(screenedMovieEntity.getMovie().getMovieVersion().equals(screenedMovieEntity.getHall().getSupportedMovieVersion())) {
             System.out.println("movieversion matches");
+            movieRepository.save(movieEntity);
             screenedMovieRepository.save(screenedMovieEntity);
             return new ResponseCreateMovieDto(
                     movieEntity.getMovieId(),
@@ -51,5 +54,21 @@ public class MovieServices {
         }
         System.out.println("movieversion doesn't match");
         return null;
+    }
+
+    public List<ResponseGetMovieDto> getMovies() {
+        List<MovieEntity> movieEntities = movieRepository.findAll();
+        List<ResponseGetMovieDto> movieDtos = new ArrayList<>();
+        for (MovieEntity movieEntity : movieEntities) {
+            ResponseGetMovieDto movieDto = new ResponseGetMovieDto();
+            movieDto.setTitle(movieEntity.getTitle());
+            movieDto.setMainCharacter(movieEntity.getMainCharacter());
+            movieDto.setDescription(movieEntity.getDescription());
+            movieDto.setPremieredAt(movieEntity.getPremieredAt());
+            movieDto.setMovieVersion(movieEntity.getMovieVersion());
+            //TODO How to get hallId?
+            movieDtos.add(movieDto);
+        }
+        return movieDtos;
     }
 }
