@@ -63,7 +63,6 @@ public class MovieServices {
     }
 
     public List<ResponseGetMovieDto> getMovie(MovieVersion movieVersion) {
-        //Todo: write function getByMovieVersion
         List<MovieEntity> movieEntityList = movieRepository.findAllByMovieVersion(movieVersion).get();
         return writeToDtos(movieEntityList);
     }

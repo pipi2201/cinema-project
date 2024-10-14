@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface MovieRepository extends JpaRepository<MovieEntity, Integer> {
     Optional<List<MovieEntity>> findAllByMovieVersion(MovieVersion movieVersion);
+    Optional<MovieEntity> findByMovieId(int movieId);
 }

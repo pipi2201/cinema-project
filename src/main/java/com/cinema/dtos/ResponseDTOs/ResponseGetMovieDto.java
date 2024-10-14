@@ -19,5 +19,5 @@ public class ResponseGetMovieDto {
     private String description;
     private LocalDate premieredAt;
     private MovieVersion movieVersion;
-    private int hallId;
+    //private int hallId;
 }
