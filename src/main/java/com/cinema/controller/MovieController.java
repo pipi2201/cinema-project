@@ -32,4 +32,9 @@ public class MovieController {
     public ResponseEntity<List<ResponseGetMovieDto>> getMovie(@PathVariable MovieVersion movieVersion ) {
         return new ResponseEntity<>(movieServices.getMovie(movieVersion), HttpStatus.OK);
     }
+
+    @PutMapping("{movieId}")
+    public ResponseEntity<ResponseGetMovieDto> updateMovie(@PathVariable int movieId, @RequestBody CreateMovieDto createMovieDto) {
+        return new ResponseEntity<>(movieServices.updateMovie(movieId, createMovieDto), HttpStatus.OK);
+    }
 }

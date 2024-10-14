@@ -67,6 +67,36 @@ public class MovieServices {
         return writeToDtos(movieEntityList);
     }
 
+    public ResponseGetMovieDto updateMovie(int movieId, CreateMovieDto createMovieDto) {
+        MovieEntity movieEntity = movieRepository.findById(movieId).get();
+        movieEntity.setTitle(createMovieDto.getTitle());
+        movieEntity.setMainCharacter(createMovieDto.getMainCharacter());
+        movieEntity.setDescription(createMovieDto.getDescription());
+        movieEntity.setMovieVersion(createMovieDto.getMovieVersion());
+        movieEntity.setPremieredAt(createMovieDto.getPremieredAt());
+
+        ScreenedMovieEntity screenedMovieEntity = new ScreenedMovieEntity();
+        screenedMovieEntity.setMovie(movieEntity);
+        screenedMovieEntity.setHall(hallRepository.findById(createMovieDto.getHallId()).get());
+        screenedMovieEntity.setScreenTime(LocalDateTime.now());
+
+        if(screenedMovieEntity.getMovie().getMovieVersion().equals(screenedMovieEntity.getHall().getSupportedMovieVersion())) {
+            System.out.println("movieversion matches");
+            movieRepository.save(movieEntity);
+            screenedMovieRepository.save(screenedMovieEntity);
+            return new ResponseGetMovieDto(
+                    movieEntity.getMovieId(),
+                    movieEntity.getTitle(),
+                    movieEntity.getMainCharacter(),
+                    movieEntity.getDescription(),
+                    movieEntity.getPremieredAt(),
+                    movieEntity.getMovieVersion()
+            );
+        }
+        System.out.println("movieversion doesn't match");
+        return null;
+    }
+
     private List<ResponseGetMovieDto> writeToDtos(List<MovieEntity> movieEntities) {
         List<ResponseGetMovieDto> movieDtos = new ArrayList<>();
         for (MovieEntity movieEntity : movieEntities) {
