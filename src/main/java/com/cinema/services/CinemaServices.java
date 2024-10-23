@@ -1,5 +1,7 @@
 package com.cinema.services;
 
+import com.cinema.customExceptions.EmptyOptionalException;
+import com.cinema.customExceptions.HasMovieScreeningException;
 import com.cinema.dtos.HallDtoForList;
 import com.cinema.dtos.RequestDTOs.CreateCinemaDto;
 import com.cinema.dtos.ResponseDTOs.ResponseCreateCinemaDto;
@@ -40,7 +42,7 @@ public class CinemaServices {
     public CinemaEntity getCinemaById(int cinemaId) {
         Optional<CinemaEntity> cinemaEntityOptional = cinemaRepository.findById(cinemaId);
         if (cinemaEntityOptional.isEmpty()) {
-            throw new RuntimeException("Cinema not found");
+            throw new EmptyOptionalException("Cinema not found");
         }
         return cinemaEntityOptional.get();
     }
@@ -89,15 +91,17 @@ public class CinemaServices {
         return hallDtoList;
     }
 
-    public String deleteCinema(int cinemaId) {
+    public void deleteCinema(int cinemaId) {
         List <HallEntity> hallEntityList = new ArrayList<>();
+        if (cinemaRepository.findById(cinemaId).isEmpty()) {
+            throw new EmptyOptionalException("Cinema not found"); //TODO: CUSTOM exception
+        }
         hallEntityList = cinemaRepository.findById(cinemaId).get().getHallEntityList();
         for (HallEntity hallEntity : hallEntityList) {
             if (hallEntity.getScreenedMovieEntityList() != null && !hallEntity.getScreenedMovieEntityList().isEmpty()) {
-                return "Cinema can't be deleted";
+                throw new HasMovieScreeningException("Cinema has movie screening in one of its halls");
             }
         }
         cinemaRepository.deleteById(cinemaId);
-        return "Cinema deleted successfully";
     }
 }

@@ -1,12 +1,13 @@
 package com.cinema.services;
 
 
+import com.cinema.customExceptions.EmptyOptionalException;
+import com.cinema.customExceptions.UnsupportedVersionException;
 import com.cinema.dtos.RequestDTOs.CreateMovieDto;
 import com.cinema.dtos.ResponseDTOs.ResponseCreateMovieDto;
 import com.cinema.dtos.ResponseDTOs.ResponseGetMovieDto;
 import com.cinema.entities.MovieEntity;
 import com.cinema.entities.ScreenedMovieEntity;
-import com.cinema.entities.pk.ScreenedMoviePk;
 import com.cinema.enums.MovieVersion;
 import com.cinema.repositories.HallRepository;
 import com.cinema.repositories.MovieRepository;
@@ -36,25 +37,26 @@ public class MovieServices {
 
         ScreenedMovieEntity screenedMovieEntity = new ScreenedMovieEntity();
         screenedMovieEntity.setMovie(movieEntity);
+        if (hallRepository.findById(createMovieDto.getHallId()).isEmpty()) {
+            throw new EmptyOptionalException("Hall not found");
+        }
         screenedMovieEntity.setHall(hallRepository.findById(createMovieDto.getHallId()).get());
         screenedMovieEntity.setScreenTime(LocalDateTime.now());
 
-        if(screenedMovieEntity.getMovie().getMovieVersion().equals(screenedMovieEntity.getHall().getSupportedMovieVersion())) {
-            System.out.println("movieversion matches");
-            movieRepository.save(movieEntity);
-            screenedMovieRepository.save(screenedMovieEntity);
-            return new ResponseCreateMovieDto(
-                    movieEntity.getMovieId(),
-                    movieEntity.getTitle(),
-                    movieEntity.getMainCharacter(),
-                    movieEntity.getDescription(),
-                    movieEntity.getPremieredAt(),
-                    movieEntity.getMovieVersion(),
-                    screenedMovieEntity.getHall().getHallId()
-            );
+        if (screenedMovieEntity.getMovie().getMovieVersion() != screenedMovieEntity.getHall().getSupportedMovieVersion()) {
+            throw new UnsupportedVersionException("Movie version not supported");
         }
-        System.out.println("movieversion doesn't match");
-        return null;
+        movieRepository.save(movieEntity);
+        screenedMovieRepository.save(screenedMovieEntity);
+        return new ResponseCreateMovieDto(
+                movieEntity.getMovieId(),
+                movieEntity.getTitle(),
+                movieEntity.getMainCharacter(),
+                movieEntity.getDescription(),
+                movieEntity.getPremieredAt(),
+                movieEntity.getMovieVersion(),
+                screenedMovieEntity.getHall().getHallId()
+        );
     }
 
     public List<ResponseGetMovieDto> getMovies() {
@@ -63,11 +65,17 @@ public class MovieServices {
     }
 
     public List<ResponseGetMovieDto> getMovie(MovieVersion movieVersion) {
+        if (movieRepository.findAllByMovieVersion(movieVersion).isEmpty()) {
+            throw new EmptyOptionalException("Movies not found");
+        }
         List<MovieEntity> movieEntityList = movieRepository.findAllByMovieVersion(movieVersion).get();
         return writeToDtos(movieEntityList);
     }
 
     public ResponseGetMovieDto updateMovie(int movieId, CreateMovieDto createMovieDto) {
+        if (movieRepository.findById(movieId).isEmpty()) {
+            throw new EmptyOptionalException("Movie not found");
+        }
         MovieEntity movieEntity = movieRepository.findById(movieId).get();
         movieEntity.setTitle(createMovieDto.getTitle());
         movieEntity.setMainCharacter(createMovieDto.getMainCharacter());
@@ -77,24 +85,25 @@ public class MovieServices {
 
         ScreenedMovieEntity screenedMovieEntity = new ScreenedMovieEntity();
         screenedMovieEntity.setMovie(movieEntity);
+        if (hallRepository.findById(createMovieDto.getHallId()).isEmpty()) {
+            throw new EmptyOptionalException("Hall not found");
+        }
         screenedMovieEntity.setHall(hallRepository.findById(createMovieDto.getHallId()).get());
         screenedMovieEntity.setScreenTime(LocalDateTime.now());
 
-        if(screenedMovieEntity.getMovie().getMovieVersion().equals(screenedMovieEntity.getHall().getSupportedMovieVersion())) {
-            System.out.println("movieversion matches");
-            movieRepository.save(movieEntity);
-            screenedMovieRepository.save(screenedMovieEntity);
-            return new ResponseGetMovieDto(
-                    movieEntity.getMovieId(),
-                    movieEntity.getTitle(),
-                    movieEntity.getMainCharacter(),
-                    movieEntity.getDescription(),
-                    movieEntity.getPremieredAt(),
-                    movieEntity.getMovieVersion()
-            );
+        if (screenedMovieEntity.getMovie().getMovieVersion() != screenedMovieEntity.getHall().getSupportedMovieVersion()) {
+            throw new UnsupportedVersionException("Movie version not supported");
         }
-        System.out.println("movieversion doesn't match");
-        return null;
+        movieRepository.save(movieEntity);
+        screenedMovieRepository.save(screenedMovieEntity);
+        return new ResponseGetMovieDto(
+                movieEntity.getMovieId(),
+                movieEntity.getTitle(),
+                movieEntity.getMainCharacter(),
+                movieEntity.getDescription(),
+                movieEntity.getPremieredAt(),
+                movieEntity.getMovieVersion()
+        );
     }
 
     private List<ResponseGetMovieDto> writeToDtos(List<MovieEntity> movieEntities) {
@@ -107,8 +116,6 @@ public class MovieServices {
             movieDto.setDescription(movieEntity.getDescription());
             movieDto.setPremieredAt(movieEntity.getPremieredAt());
             movieDto.setMovieVersion(movieEntity.getMovieVersion());
-            //TODO How to get hallId?
-            //movieDto.setHallId();
             movieDtos.add(movieDto);
         }
         return movieDtos;

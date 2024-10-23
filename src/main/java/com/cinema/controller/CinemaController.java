@@ -33,7 +33,8 @@ public class CinemaController {
     }
 
     @DeleteMapping("{cinemaId}")
-    public ResponseEntity<String> deleteCinema(@PathVariable int cinemaId) {
-        return new ResponseEntity<>(cinemaServices.deleteCinema(cinemaId), HttpStatus.OK);
+    public ResponseEntity<Void> deleteCinema(@PathVariable int cinemaId) {
+        cinemaServices.deleteCinema(cinemaId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

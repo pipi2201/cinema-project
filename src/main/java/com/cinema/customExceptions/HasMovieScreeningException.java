@@ -1,7 +1,8 @@
 package com.cinema.customExceptions;
 
-public class hasMovieScreeningException extends RuntimeException {
-    public hasMovieScreeningException(String message) {
+public class HasMovieScreeningException extends RuntimeException {
+
+    public HasMovieScreeningException(String message) {
         super(message);
     }
 }
